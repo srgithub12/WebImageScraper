@@ -1,6 +1,7 @@
 package com.wis.es.service;
 
 import java.util.Map;
+
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.elasticsearch.action.ActionListener;
@@ -13,8 +14,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
 import org.springframework.web.client.RestTemplate;
+
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.wis.es.domain.WebImages;
+import com.wis.es.repository.WebImagesRepo;
 import com.wis.es.response.ImageScrapingResponse;
 import com.wis.es.response.ImagesResult;
 
@@ -25,6 +28,9 @@ public class WebImageScrapingService {
 
 	@Autowired
 	private RestHighLevelClient client;
+
+	@Autowired
+	private WebImagesRepo webImagesRepo;
 
 	private static final String API_KEY = "1aeadc13fd76503504574dbdec0c24a6a10cd3117adad2c204463f4c7e358f83";
 
@@ -44,8 +50,7 @@ public class WebImageScrapingService {
 		client.bulkAsync(bulkRequest, options, new ActionListener<BulkResponse>() {
 			@Override
 			public void onResponse(BulkResponse response) {
-				logger.info("Items: {} , Time took in millis: {}", response.getItems(),
-						response.getIngestTookInMillis());
+				logger.info("Items Length: {} , Time Took: {}", response.getItems().length, response.getTook());
 			}
 
 			@Override
@@ -89,5 +94,19 @@ public class WebImageScrapingService {
 
 		}
 		return bulkRequest;
+	}
+
+	public long scrapeImagesCount() throws Exception {
+
+		logger.info("WebImageScrapingService::scrapeImagesCount::Start");
+
+		long count = webImagesRepo.count();
+
+		logger.info("Count: {}", count);
+
+		logger.info("WebImageScrapingService::scrapeImagesCount::End");
+
+		return count;
+
 	}
 }

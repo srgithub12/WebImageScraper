@@ -1,5 +1,7 @@
 package com.wis.es.domain;
 
+import java.util.UUID;
+
 import org.springframework.data.annotation.Id;
 import org.springframework.data.elasticsearch.annotations.Document;
 
@@ -7,7 +9,7 @@ import org.springframework.data.elasticsearch.annotations.Document;
 public class WebImages {
 
 	@Id
-	private String id;
+	private String id = UUID.randomUUID().toString();
 	private String url;
 	private String original;
 

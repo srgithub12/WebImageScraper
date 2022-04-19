@@ -34,4 +34,21 @@ public class WebImageScraperController {
 		return response;
 	}
 
+	@GetMapping(path = "scrape/images/count")
+	public String scrapeImagesCount() {
+
+		logger.info("WebImageScraperController::scrapeImagesCount");
+
+		String response = "";
+		try {
+			long count = webImageScrapingService.scrapeImagesCount();
+			response = "Count is " + count;
+		} catch (Exception e) {
+			logger.error("WebImageScraperController::scrapeImagesCount::Error: {}", e);
+
+			response = "Some thing went wrong, Please try again later";
+		}
+		return response;
+	}
+
 }
