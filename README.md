@@ -14,8 +14,8 @@ Execution:
 2) Build and deploy jar in any webcontainer(Ex:tomcat)
 
 Invocation:
-For Image scraping:
+1) For Image scraping:
 http://localhost:8080/scrape/images?searchParam=south indian food images
 
-To check number of records in the index:
+2) To check the number of records in the index:
 http://localhost:8080/scrape/images/count
